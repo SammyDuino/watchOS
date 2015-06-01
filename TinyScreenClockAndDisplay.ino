@@ -35,7 +35,6 @@ void setup(void) { // setup
   display.setFlip(1);
   display.setBrightness(4);
   RTC.start();
-  displayBattery();
   display.fontColor(GREEN,BLACK);
   display.setFont(liberationSans_16ptFontInfo);
   display.setCursor(0,10);
@@ -57,7 +56,6 @@ void loop() {
   	}
     if(buttons == 0){
       countdown=countdown-1;
-      Serial.println(countdown);
     }
   if (countdown<=0){
   displayState=0;
@@ -101,7 +99,7 @@ void loop() {
 display.print(hours);
   display.print(":");
   
-  if (RTC.getMinutes() < 10) // if minutes under 10
+  if (RTC.getMinutes() < 10)
    {
      display.fontColor(YELLOW,BLACK);
      display.print("0");
@@ -113,11 +111,11 @@ display.print(hours);
      display.print(minute);
    }
    
-  display.fontColor(GREEN,BLACK); // set color
+  display.fontColor(GREEN,BLACK);
   
   display.print(":");
   
-   if (RTC.getSeconds() < 10) // if seconds under 10
+   if (RTC.getSeconds() < 10)
    {
      display.fontColor(RED,BLACK);
      display.print("0");
