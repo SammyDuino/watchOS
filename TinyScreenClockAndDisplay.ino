@@ -27,7 +27,7 @@ int displayState=0;
 int buttonReleased=0;
 int countdown = 0;
 
-char notificationLine1[20]="Build 2.5.0";
+char notificationLine1[20]="Release 2.5.1";
 
 void setup(void) { // setup
   Wire.begin();
