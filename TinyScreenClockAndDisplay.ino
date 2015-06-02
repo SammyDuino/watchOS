@@ -27,7 +27,7 @@ int displayState=0;
 int buttonReleased=0;
 int countdown = 0;
 
-char notificationLine1[20]="Release 2.1.1";
+char notificationLine1[20]="Build 2.5.0";
 
 void setup(void) { // setup
   Wire.begin();
@@ -41,7 +41,9 @@ void setup(void) { // setup
   display.print("Welcome");
   display.setCursor(0,40);
   display.print("Booting up");
-  Serial.print("Initializing");
+  displayState = 1;
+  display.on();
+  countdown = 90;
   delay(2000);
   display.clearWindow(0,0,0,0);
 }
@@ -90,7 +92,7 @@ void loop() {
   
   // Time
   display.setCursor(0,30);
-  display.fontColor(GREEN,BLACK);
+  display.fontColor(YELLOW,BLACK);
   int hours = RTC.getHours();
   if (hours > 12)
 {
@@ -101,35 +103,31 @@ display.print(hours);
   
   if (RTC.getMinutes() < 10)
    {
-     display.fontColor(YELLOW,BLACK);
      display.print("0");
      display.print(minute);
    }
    else 
    {
-     display.fontColor(YELLOW,BLACK);
      display.print(minute);
    }
    
-  display.fontColor(GREEN,BLACK);
   
   display.print(":");
   
    if (RTC.getSeconds() < 10)
    {
-     display.fontColor(RED,BLACK);
      display.print("0");
      display.print(second);
    }
    else 
    {
-     display.fontColor(RED,BLACK);
      display.print(second);
    }
 }
 void displayNotifications(){
   display.setFont(liberationSans_10ptFontInfo);
   display.setCursor(0,50);
+  display.fontColor(RED,BLACK);
   display.print(notificationLine1);
   for(int i=0;i<40;i++)display.write(' ');
   display.setCursor(0,50);
@@ -142,8 +140,6 @@ void displayBattery()
   ADCSRA |= _BV( ADSC );
   while( ( (ADCSRA & (1<<ADSC)) != 0 ) );
   int result = (((InternalReferenceVoltage * 1024L) / ADC) + 5L) / 10L;
-  //Serial.println(result);
-  //if(result>440){//probably charging
   result=constrain(result-300,0,120);
   int x=72;
   int y=2;
