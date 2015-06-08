@@ -27,25 +27,16 @@ int displayState=0;
 int buttonReleased=0;
 int countdown = 0;
 
-char notificationLine1[20]="Release 2.5.1";
+char notificationLine1[20]="Sunday";
 
-void setup(void) { // setup
+void setup(void) {
   Wire.begin();
   display.begin();
   display.setFlip(1);
-  display.setBrightness(4);
+  display.setBrightness(5);
+  Serial.begin(9600);
   RTC.start();
-  display.fontColor(GREEN,BLACK);
-  display.setFont(liberationSans_16ptFontInfo);
-  display.setCursor(0,10);
-  display.print("Welcome");
-  display.setCursor(0,40);
-  display.print("Booting up");
-  displayState = 1;
-  display.on();
-  countdown = 90;
-  delay(2000);
-  display.clearWindow(0,0,0,0);
+  startup();
 }
 
 void loop() {
@@ -71,6 +62,8 @@ void loop() {
   unsigned char month;
   unsigned char day;
   unsigned int year;
+  unsigned int weakday;
+  char* dayOfWeekName[7];
   display.fontColor(BLACK,BLACK);
   RTC.readTime();
         second = RTC.getSeconds();
@@ -79,8 +72,14 @@ void loop() {
         day = RTC.getDays();
         month = RTC.getMonths();        
         year = RTC.getYears();
-  display.setFont(liberationSans_10ptFontInfo);  
-  // Date      
+        weakday = RTC.getDayOfWeek();
+        dayOfWeekName[] = { "Sunday","Monday","Tuesday","Wednesday",
+            "Thursday","Friday","Saturday"};
+
+
+day = dayOfWeekName[weekday];
+  display.setFont(liberationSans_10ptFontInfo);
+// Date      
   display.setCursor(0,10);
   display.fontColor(BLUE,BLACK);
   delay(10);
@@ -89,40 +88,23 @@ void loop() {
   display.print(day);
   display.print("/");
   display.print(year);
-  
-  // Time
+// Time
   display.setCursor(0,30);
-  display.fontColor(YELLOW,BLACK);
-  int hours = RTC.getHours();
-  if (hours > 12)
-{
-  hours = hours - 12;
-}
-display.print(hours);
+  if (hour > 12) {
+    hour = hour - 12;
+  }
+  display.print(hour);
   display.print(":");
-  
-  if (RTC.getMinutes() < 10)
-   {
-     display.print("0");
-     display.print(minute);
-   }
-   else 
-   {
-     display.print(minute);
-   }
-   
-  
-  display.print(":");
-  
-   if (RTC.getSeconds() < 10)
-   {
-     display.print("0");
-     display.print(second);
-   }
-   else 
-   {
-     display.print(second);
-   }
+  if (minute < 10) {
+    display.print("0");
+  }
+  display.print(minute);
+  if (hour > 12) {
+  display.print(" AM");
+  }
+  else {
+    display.print(" PM");
+  }
 }
 void displayNotifications(){
   display.setFont(liberationSans_10ptFontInfo);
@@ -159,4 +141,18 @@ void displayBattery()
     }
     display.drawLine(x+i,y,x+i,y+height,red,green,blue);
   }
+}
+void startup()
+{
+    display.fontColor(GREEN,BLACK);
+  display.setFont(liberationSans_16ptFontInfo);
+  display.setCursor(0,10);
+  display.print("Welcome");
+  display.setCursor(0,40);
+  display.print("Booting up");
+  displayState = 1;
+  display.on();
+  countdown = 90;
+  delay(2000);
+  display.clearWindow(0,0,0,0);
 }
