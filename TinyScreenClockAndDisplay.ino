@@ -27,7 +27,7 @@ int displayState=0;
 int buttonReleased=0;
 int countdown = 0;
 
-char notificationLine1[20]="Sunday";
+char notificationLine1[20]="Release 2.9.0";
 
 void setup(void) {
   Wire.begin();
@@ -37,6 +37,7 @@ void setup(void) {
   Serial.begin(9600);
   RTC.start();
   startup();
+  Serial.println("Initialized");
 }
 
 void loop() {
@@ -46,6 +47,7 @@ void loop() {
     displayState = 1;
     display.on();
     countdown = 90;
+    Serial.println("Display on");
   	}
     if(buttons == 0){
       countdown=countdown-1;
@@ -53,6 +55,7 @@ void loop() {
   if (countdown<=0){
   displayState=0;
   display.off();
+  Serial.println("Display off");
 }
   displayNotifications();
   displayBattery();
@@ -72,12 +75,12 @@ void loop() {
         day = RTC.getDays();
         month = RTC.getMonths();        
         year = RTC.getYears();
-        weakday = RTC.getDayOfWeek();
-        dayOfWeekName[] = { "Sunday","Monday","Tuesday","Wednesday",
-            "Thursday","Friday","Saturday"};
+        //weakday = RTC.getDayOfWeek();
+        //dayOfWeekName[] = { "Sunday","Monday","Tuesday","Wednesday",
+        //    "Thursday","Friday","Saturday"};
 
 
-day = dayOfWeekName[weekday];
+//day = dayOfWeekName[weekday];
   display.setFont(liberationSans_10ptFontInfo);
 // Date      
   display.setCursor(0,10);
@@ -99,12 +102,12 @@ day = dayOfWeekName[weekday];
     display.print("0");
   }
   display.print(minute);
-  if (hour > 12) {
+  /*if (hour > 12) {
   display.print(" AM");
   }
   else {
     display.print(" PM");
-  }
+  }*/
 }
 void displayNotifications(){
   display.setFont(liberationSans_10ptFontInfo);
