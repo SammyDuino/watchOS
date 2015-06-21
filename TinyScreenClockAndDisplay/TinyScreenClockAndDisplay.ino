@@ -27,17 +27,18 @@ int displayState=0;
 int buttonReleased=0;
 int countdown = 0;
 
-char notificationLine1[20]="Release 2.9.0";
+char notificationLine1[20]="Release 2.9.2";
 
 void setup(void) {
   Wire.begin();
   display.begin();
   display.setFlip(1);
   display.setBrightness(5);
-  Serial.begin(9600);
+  //Serial.begin(9600);
   RTC.start();
   startup();
-  Serial.println("Initialized");
+  //Serial.println("Initialized");
+  display.setCursor(0,30);
 }
 
 void loop() {
@@ -47,15 +48,16 @@ void loop() {
     displayState = 1;
     display.on();
     countdown = 90;
-    Serial.println("Display on");
+    //Serial.println("Display on");
   	}
     if(buttons == 0){
       countdown=countdown-1;
     }
   if (countdown<=0){
+  display.clearWindow(0,0,0,0);
   displayState=0;
   display.off();
-  Serial.println("Display off");
+  //Serial.println("Display off");
 }
   displayNotifications();
   displayBattery();
@@ -102,12 +104,12 @@ void loop() {
     display.print("0");
   }
   display.print(minute);
-  /*if (hour > 12) {
+  if (hour > 12) {
   display.print(" AM");
   }
   else {
     display.print(" PM");
-  }*/
+  }
 }
 void displayNotifications(){
   display.setFont(liberationSans_10ptFontInfo);
