@@ -79,9 +79,9 @@ void loop() {
         weakday = RTC.getDayOfWeek();
         
 // Weekday
-      display.setFont(liberationSans_10ptFontInfo);
-      display.fontColor(BLUE,BLACK);
-      display.setCursor(0,46);
+      display.setFont(liberationSans_16ptFontInfo);
+      display.fontColor(WHITE,BLACK);
+      display.setCursor(0,40);
     if (weakday == 1)
   {
       display.print("Sunday");
@@ -112,16 +112,17 @@ void loop() {
   }
 
 // Date      
-  display.setCursor(0,10);
-  display.fontColor(BLUE,BLACK);
-  delay(10);
+  display.setFont(liberationSans_10ptFontInfo);
+  display.fontColor(WHITE,BLACK);
+  display.setCursor(1,1);
   display.print(month);
   display.print("/");
   display.print(day);
   display.print("/");
   display.print(year);
 // Time
-  display.setCursor(0,30);
+  display.setFont(liberationSans_22ptFontInfo);
+  display.setCursor(0,16);
   if (hour > 12) {
     hour = hour - 12;
   }
@@ -131,12 +132,12 @@ void loop() {
     display.print("0");
   }
   display.print(minute);
-  if (hour > 12) {
+/*  if (hour > 12) {
   display.print(" AM");
   }
   else {
     display.print(" PM");
-  }
+  }*/
 }
 void displayBattery()
 {
