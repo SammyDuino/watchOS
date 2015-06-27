@@ -81,7 +81,7 @@ void loop() {
 // Weekday
       display.setFont(liberationSans_10ptFontInfo);
       display.fontColor(BLUE,BLACK);
-      display.setCursor(0,50);
+      display.setCursor(0,46);
     if (weakday == 1)
   {
       display.print("Sunday");
