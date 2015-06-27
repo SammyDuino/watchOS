@@ -27,10 +27,6 @@ int displayState=0;
 int buttonReleased=0;
 int countdown = 0;
 
-<<<<<<< HEAD
-=======
-char notificationLine1[20]="Release 3.0.0";
->>>>>>> origin/master
 
 void setup(void) {
   Wire.begin();
