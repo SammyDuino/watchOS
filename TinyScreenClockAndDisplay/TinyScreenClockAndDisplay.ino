@@ -27,14 +27,13 @@ int displayState=0;
 int buttonReleased=0;
 int countdown = 0;
 
-char notificationLine1[20]="Release 2.9.2";
 
 void setup(void) {
   Wire.begin();
   display.begin();
   display.setFlip(1);
   display.setBrightness(5);
-  //Serial.begin(9600);
+  Serial.begin(9600);
   RTC.start();
   startup();
   //Serial.println("Initialized");
@@ -59,7 +58,7 @@ void loop() {
   display.off();
   //Serial.println("Display off");
 }
-  displayNotifications();
+  //displayNotifications();
   displayBattery();
   unsigned char second;
   unsigned char minute;
@@ -77,13 +76,41 @@ void loop() {
         day = RTC.getDays();
         month = RTC.getMonths();        
         year = RTC.getYears();
-        //weakday = RTC.getDayOfWeek();
-        //dayOfWeekName[] = { "Sunday","Monday","Tuesday","Wednesday",
-        //    "Thursday","Friday","Saturday"};
+        weakday = RTC.getDayOfWeek();
+        
+// Weekday
+      display.setFont(liberationSans_10ptFontInfo);
+      display.fontColor(BLUE,BLACK);
+      display.setCursor(0,50);
+    if (weakday == 1)
+  {
+      display.print("Sunday");
+  }
+  else if (weakday == 2)
+  {
+      display.print("Monday");
+  }
+  else if (weakday == 3)
+  {
+      display.print("Tuesday");
+  }
+   else if (weakday == 4)
+  {
+      display.print("Wednsday");
+  }
+     else if (weakday == 5)
+  {
+      display.print("Thursday");
+  }
+     else if (weakday == 6)
+  {
+      display.print("Friday");
+  }
+     else if (weakday == 7)
+  {
+      display.print("Saturday");
+  }
 
-
-//day = dayOfWeekName[weekday];
-  display.setFont(liberationSans_10ptFontInfo);
 // Date      
   display.setCursor(0,10);
   display.fontColor(BLUE,BLACK);
@@ -110,14 +137,6 @@ void loop() {
   else {
     display.print(" PM");
   }
-}
-void displayNotifications(){
-  display.setFont(liberationSans_10ptFontInfo);
-  display.setCursor(0,50);
-  display.fontColor(RED,BLACK);
-  display.print(notificationLine1);
-  for(int i=0;i<40;i++)display.write(' ');
-  display.setCursor(0,50);
 }
 void displayBattery()
 {
@@ -149,15 +168,14 @@ void displayBattery()
 }
 void startup()
 {
-    display.fontColor(GREEN,BLACK);
+  display.fontColor(GREEN,BLACK);
   display.setFont(liberationSans_16ptFontInfo);
   display.setCursor(0,10);
   display.print("Welcome");
-  display.setCursor(0,40);
-  display.print("Booting up");
+  delay(2000);
   displayState = 1;
   display.on();
   countdown = 90;
-  delay(2000);
   display.clearWindow(0,0,0,0);
 }
+
