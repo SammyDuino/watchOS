@@ -78,10 +78,11 @@ void loop() {
         year = RTC.getYears();
         weakday = RTC.getDayOfWeek();
         
-// Weekday
+// weakday
       display.setFont(liberationSans_16ptFontInfo);
       display.fontColor(WHITE,BLACK);
       display.setCursor(0,40);
+      Serial.println(weakday);
     if (weakday == 1)
   {
       display.print("Sunday");
@@ -110,16 +111,193 @@ void loop() {
   {
       display.print("Saturday");
   }
+  else {
+    display.print("ERROR");
+  }
 
 // Date      
   display.setFont(liberationSans_10ptFontInfo);
   display.fontColor(WHITE,BLACK);
   display.setCursor(1,1);
-  display.print(month);
-  display.print("/");
-  display.print(day);
-  display.print("/");
-  display.print(year);
+  // Months
+  if (month == 1)
+  {
+    display.print("Jan");
+  }
+  else if (month == 2)
+  {
+    display.print("Feb");
+  }
+  else if (month == 3)
+  {
+    display.print("March");
+  }
+  else if (month == 4)
+  {
+    display.print("April");
+  }
+  else if (month == 5)
+  {
+    display.print("May");
+  }
+    else if (month == 6)
+  {
+    display.print("June");
+  }
+    else if (month == 7)
+  {
+    display.print("July");
+  }
+    else if (month == 8)
+  {
+    display.print("Augest");
+  }
+    else if (month == 9)
+  {
+    display.print("Sept");
+  }
+    else if (month == 10)
+  {
+    display.print("October");
+  }
+    else if (month == 11)
+  {
+    display.print("Nov");
+  }
+    else if (month == 12)
+  {
+    display.print("Dec");
+  }
+  display.print(" ");
+  // Day
+  if (day == 1)
+  {
+    display.print("1st");
+  }
+  else if (day == 2)
+  {
+    display.print("2nd");
+  }
+    else if (day == 3)
+  {
+    display.print("3rd");
+  }
+    else if ((day >=4)&&(day<=20)){
+      display.print(day);
+      display.print("th");
+    }
+    else if (day == 4)
+  {
+    display.print("4th");
+  }
+    else if (day == 5)
+  {
+    display.print("5th");
+  }
+    else if (day == 6)
+  {
+    display.print("6th");
+  }
+    else if (day == 7)
+  {
+    display.print("7th");
+  }
+    else if (day == 8)
+  {
+    display.print("8th");
+  }
+    else if (day == 9)
+  {
+    display.print("9th");
+  }
+    else if (day == 10)
+  {
+    display.print("10th");
+  }
+    else if (day == 11)
+  {
+    display.print("11th");
+  }
+    else if (day == 12)
+  {
+    display.print("12th");
+  }
+    else if (day == 13)
+  {
+    display.print("13th");
+  }
+    else if (day == 14)
+  {
+    display.print("14th");
+  }
+    else if (day == 15)
+  {
+    display.print("15th");
+  }
+    else if (day == 16)
+  {
+    display.print("16th");
+  }
+    else if (day == 17)
+  {
+    display.print("17th");
+  }
+    else if (day == 18)
+  {
+    display.print("18th");
+  }
+    else if (day == 19)
+  {
+    display.print("19th");
+  }
+    else if (day == 20)
+  {
+    display.print("20th");
+  }
+    else if (day == 21)
+  {
+    display.print("21st");
+  }
+    else if (day == 22)
+  {
+    display.print("22nd");
+  }
+    else if (day == 23)
+  {
+    display.print("23rd");
+  }
+    else if (day == 24)
+  {
+    display.print("24th");
+  }
+    else if (day == 25)
+  {
+    display.print("25th");
+  }
+    else if (day == 26)
+  {
+    display.print("26th");
+  }
+    else if (day == 27)
+  {
+    display.print("27th");
+  }
+    else if (day == 28)
+  {
+    display.print("28th");
+  }
+    else if (day == 29)
+  {
+    display.print("29th");
+  }
+    else if (day == 30)
+  {
+    display.print("30th");
+  }
+    else if (day == 31)
+  {
+    display.print("31st");
+  }
 // Time
   display.setFont(liberationSans_22ptFontInfo);
   display.setCursor(0,16);
@@ -132,12 +310,14 @@ void loop() {
     display.print("0");
   }
   display.print(minute);
-/*  if (hour > 12) {
+  if (hour > 12) {
+  display.fontColor(WHITE,BLACK);
   display.print(" AM");
   }
   else {
+    display.fontColor(WHITE,BLACK);
     display.print(" PM");
-  }*/
+  }
 }
 void displayBattery()
 {
@@ -179,4 +359,3 @@ void startup()
   countdown = 90;
   display.clearWindow(0,0,0,0);
 }
-
