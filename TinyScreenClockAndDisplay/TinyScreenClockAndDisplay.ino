@@ -83,7 +83,7 @@ void loop() {
       display.fontColor(WHITE,BLACK);
       display.setCursor(0,40);
       Serial.println(weakday);
-    if (weakday == 1)
+/*    if (weakday == 1)
   {
       display.print("Sunday");
   }
@@ -114,59 +114,72 @@ void loop() {
   else {
     display.print("ERROR");
   }
-
+*/
+  switch(weakday){
+    case 0:
+    display.print( "Monday");
+    break;
+    case 1:
+    display.print( "Tuesday");
+    break;
+    case 2:
+    display.print("Wednsday");
+    break;
+    case 3:
+    display.print("Thursday");
+    break;
+    case 4:
+    display.print("Friday");
+    break;
+    case 5:
+    display.print("Saturday");
+    break;
+    case 6:
+    display.print("Sunday");
+    break;
+  }
 // Date      
   display.setFont(liberationSans_10ptFontInfo);
   display.fontColor(WHITE,BLACK);
   display.setCursor(1,1);
   // Months
-  if (month == 1)
-  {
-    display.print("Jan");
-  }
-  else if (month == 2)
-  {
-    display.print("Feb");
-  }
-  else if (month == 3)
-  {
-    display.print("March");
-  }
-  else if (month == 4)
-  {
-    display.print("April");
-  }
-  else if (month == 5)
-  {
-    display.print("May");
-  }
-    else if (month == 6)
-  {
-    display.print("June");
-  }
-    else if (month == 7)
-  {
-    display.print("July");
-  }
-    else if (month == 8)
-  {
-    display.print("Augest");
-  }
-    else if (month == 9)
-  {
-    display.print("Sept");
-  }
-    else if (month == 10)
-  {
-    display.print("October");
-  }
-    else if (month == 11)
-  {
-    display.print("Nov");
-  }
-    else if (month == 12)
-  {
-    display.print("Dec");
+  switch(month) {
+  case 1:
+  display.print("Jan");
+  break;
+  case 2:
+  display.print("Feb");
+  break;
+  case 3:
+  display.print("March");
+  break;
+  case 4:
+  display.print("April");
+  break;
+  case 5:
+  display.print("May");
+  break;
+  case 6:
+  display.print("June");
+  break;
+  case 7:
+  display.print("July");
+  break;
+  case 8:
+  display.print("Aug");
+  break;
+  case 9:
+  display.print("Sept");
+  break;
+  case 10:
+  display.print("Oct");
+  break;
+  case 11:
+  display.print("Nov");
+  break;
+  case 12:
+  display.print("Dec");
+  break;
   }
   display.print(" ");
   // Day
