@@ -83,38 +83,7 @@ void loop() {
       display.fontColor(WHITE,BLACK);
       display.setCursor(0,40);
       Serial.println(weakday);
-/*    if (weakday == 1)
-  {
-      display.print("Sunday");
-  }
-  else if (weakday == 2)
-  {
-      display.print("Monday");
-  }
-  else if (weakday == 3)
-  {
-      display.print("Tuesday");
-  }
-   else if (weakday == 4)
-  {
-      display.print("Wednsday");
-  }
-     else if (weakday == 5)
-  {
-      display.print("Thursday");
-  }
-     else if (weakday == 6)
-  {
-      display.print("Friday");
-  }
-     else if (weakday == 7)
-  {
-      display.print("Saturday");
-  }
-  else {
-    display.print("ERROR");
-  }
-*/
+
   switch(weakday){
     case 0:
     display.print( "Monday");
