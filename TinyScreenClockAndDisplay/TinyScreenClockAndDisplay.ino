@@ -82,9 +82,7 @@ void loop() {
       display.setFont(liberationSans_16ptFontInfo);
       display.fontColor(WHITE,BLACK);
       display.setCursor(0,40);
-      Serial.println(weakday);
-
-  switch(weakday){
+  switch (weakday){
     case 0:
     display.print( "Monday");
     break;
@@ -112,7 +110,7 @@ void loop() {
   display.fontColor(WHITE,BLACK);
   display.setCursor(1,1);
   // Months
-  switch(month) {
+  switch (month) {
   case 1:
   display.print("Jan");
   break;
@@ -152,66 +150,37 @@ void loop() {
   }
   display.print(" ");
   // Day
-  if (day == 1)
-  {
-    display.print("1st");
-  }
-  else if (day == 2)
-  {
+  switch (day) {
+  case 1:
+  display.print("1st");
+  break;
+  case 2:
     display.print("2nd");
-  }
-    else if (day == 3)
-  {
+  break;
+    case 3:
     display.print("3rd");
+    break;
+    case 21:
+    display.print("21st");
+    break;
+    case 22:
+    display.print("22nd");
+    break;
+    case 23:
+    display.print("23rd");
+    break;
+    case 31:
+    display.print("31st");
+    break;
   }
-    else if ((day >=4)&&(day<=20)){
+    if ((day >=4)&&(day<=20)){
       display.print(day);
       display.print("th");
     }
-    else if (day == 21)
-  {
-    display.print("21st");
-  }
-    else if (day == 22)
-  {
-    display.print("22nd");
-  }
-    else if (day == 23)
-  {
-    display.print("23rd");
-  }
-    else if (day == 24)
-  {
-    display.print("24th");
-  }
-    else if (day == 25)
-  {
-    display.print("25th");
-  }
-    else if (day == 26)
-  {
-    display.print("26th");
-  }
-    else if (day == 27)
-  {
-    display.print("27th");
-  }
-    else if (day == 28)
-  {
-    display.print("28th");
-  }
-    else if (day == 29)
-  {
-    display.print("29th");
-  }
-    else if (day == 30)
-  {
-    display.print("30th");
-  }
-    else if (day == 31)
-  {
-    display.print("31st");
-  }
+    if ((day >=24)&&(day<=30)){
+      display.print(day);
+      display.print("th");
+    }
 // Time
   display.setFont(liberationSans_22ptFontInfo);
   display.setCursor(0,16);
