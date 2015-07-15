@@ -7,12 +7,13 @@
 #define WHITE           0xFF
 #define ALPHA           0xFE
 #define	BROWN           0x32
-
+// Define colors
   
 #include "SSD1331.h"
 #include <SPI.h>
 #include <Wire.h>
 #include "DSRTCLib.h"
+// Define libraries
 
 #include <avr/power.h>
 #include <avr/sleep.h>
@@ -20,45 +21,42 @@ SSD1331 display = SSD1331(0);
 int ledPin =  13;
 int INT_PIN = 3;
 int int_number = 1;
+// Defins Pins
 
 DS1339 RTC = DS1339();
 
 int displayState=0;
 int buttonReleased=0;
 int countdown = 0;
+// Defines integers being used
 
-
-void setup(void) {
-  Wire.begin();
-  display.begin();
-  display.setFlip(1);
-  display.setBrightness(5);
-  Serial.begin(9600);
-  RTC.start();
+void setup(void) 
+{
+  startAllProccesses();
   startup();
-  //Serial.println("Initialized");
   display.setCursor(0,30);
 }
 
-void loop() {
+void loop() 
+{
   byte buttons = display.getButtons();
-  if(buttons != 0)
+  
+  if (buttons != 0)
   {
     displayState = 1;
     display.on();
     countdown = 90;
-    //Serial.println("Display on");
   	}
-    if(buttons == 0){
+    if (buttons == 0) 
+    {
       countdown=countdown-1;
     }
-  if (countdown<=0){
+  if (countdown<=0)
+  {
   display.clearWindow(0,0,0,0);
-  displayState=0;
+  displayState = 0;
   display.off();
-  //Serial.println("Display off");
 }
-  //displayNotifications();
   displayBattery();
   unsigned char second;
   unsigned char minute;
@@ -79,10 +77,10 @@ void loop() {
         weakday = RTC.getDayOfWeek();
         
 // weakday
-      display.setFont(liberationSans_16ptFontInfo);
-      display.fontColor(WHITE,BLACK);
-      display.setCursor(0,40);
-  switch (weakday){
+  display.setFont(liberationSans_16ptFontInfo);
+  display.fontColor(WHITE,BLACK);
+  display.setCursor(0,40);
+  switch (weakday) {
     case 0:
     display.print( "Monday");
     break;
@@ -173,11 +171,13 @@ void loop() {
     display.print("31st");
     break;
   }
-    if ((day >=4)&&(day<=20)){
+    if ((day >=4) && (day<=20))
+    {
       display.print(day);
       display.print("th");
     }
-    if ((day >=24)&&(day<=30)){
+    if ((day >=24) && (day<=30))
+    {
       display.print(day);
       display.print("th");
     }
@@ -204,7 +204,7 @@ void loop() {
 }
 void displayBattery()
 {
-    const long InternalReferenceVoltage = 1100L;
+  const long InternalReferenceVoltage = 1100L;
   ADMUX = (0<<REFS1) | (1<<REFS0) | (0<<ADLAR) | (1<<MUX3) | (1<<MUX2) | (1<<MUX1) | (0<<MUX0);
   delay(10);
   ADCSRA |= _BV( ADSC );
@@ -218,11 +218,13 @@ void displayBattery()
   int amtActive=(result*length)/110;
   int red,green,blue;
   for(int i=0;i<length;i++){
-    if(i<amtActive){
+  if (i<amtActive) 
+  {
     red=63-((63/length)*i);
     green=((63/length)*i);
     blue=0;
-    }else{
+    } 
+    else {
       red=32;
       green=32;
       blue=32;
@@ -241,4 +243,14 @@ void startup()
   display.on();
   countdown = 90;
   display.clearWindow(0,0,0,0);
+}
+void startAllProcesses()
+{
+  Wire.begin();
+  display.begin();
+  display.setFlip(1);
+  display.setBrightness(5);
+  Serial.begin(9600);
+  RTC.start();
+}
 }
