@@ -46,17 +46,17 @@ void loop()
     displayState = 1;
     display.on();
     countdown = 90;
-  	}
-    if (buttons == 0) 
-    {
-      countdown=countdown-1;
-    }
+  }
+  if (buttons == 0) 
+  {
+    countdown=countdown-1;
+  }
   if (countdown<=0)
   {
   display.clearWindow(0,0,0,0);
   displayState = 0;
   display.off();
-}
+  }
   displayBattery();
   unsigned char second;
   unsigned char minute;
@@ -75,33 +75,32 @@ void loop()
         month = RTC.getMonths();        
         year = RTC.getYears();
         weakday = RTC.getDayOfWeek();
-        
 // weakday
   display.setFont(liberationSans_16ptFontInfo);
   display.fontColor(WHITE,BLACK);
   display.setCursor(0,40);
   switch (weakday) {
-    case 0:
-    display.print( "Monday");
-    break;
-    case 1:
-    display.print( "Tuesday");
-    break;
-    case 2:
-    display.print("Wednsday");
-    break;
-    case 3:
-    display.print("Thursday");
-    break;
-    case 4:
-    display.print("Friday");
-    break;
-    case 5:
-    display.print("Saturday");
-    break;
-    case 6:
-    display.print("Sunday");
-    break;
+  case 0:
+  display.print( "Monday");
+  break;
+  case 1:
+  display.print( "Tuesday");
+  break;
+  case 2:
+  display.print("Wednsday");
+  break;
+  case 3:
+  display.print("Thursday");
+  break;
+  case 4:
+  display.print("Friday");
+  break;
+  case 5:
+  display.print("Saturday");
+  break;
+  case 6:
+  display.print("Sunday");
+  break;
   }
 // Date      
   display.setFont(liberationSans_10ptFontInfo);
@@ -153,39 +152,39 @@ void loop()
   display.print("1st");
   break;
   case 2:
-    display.print("2nd");
+  display.print("2nd");
   break;
-    case 3:
-    display.print("3rd");
-    break;
-    case 21:
-    display.print("21st");
-    break;
-    case 22:
-    display.print("22nd");
-    break;
-    case 23:
-    display.print("23rd");
-    break;
-    case 31:
-    display.print("31st");
-    break;
+  case 3:
+  display.print("3rd");
+  break;
+  case 21:
+  display.print("21st");
+  break;
+  case 22:
+  display.print("22nd");
+  break;
+  case 23:
+  display.print("23rd");
+  break;
+  case 31:
+  display.print("31st");
+  break;
   }
-    if ((day >=4) && (day<=20))
-    {
-      display.print(day);
-      display.print("th");
-    }
-    if ((day >=24) && (day<=30))
-    {
-      display.print(day);
-      display.print("th");
-    }
+  if ((day >=4) && (day<=20))
+  {
+  display.print(day);
+  display.print("th");
+  }
+  if ((day >= 24) && (day <= 30))
+  {
+  display.print(day);
+  display.print("th");
+  }
 // Time
   display.setFont(liberationSans_22ptFontInfo);
   display.setCursor(0,16);
   if (hour > 12) {
-    hour = hour - 12;
+  hour = hour - 12;
   }
   display.print(hour);
   display.print(":");
