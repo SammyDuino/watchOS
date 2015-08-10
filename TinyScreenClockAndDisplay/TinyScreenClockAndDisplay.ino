@@ -32,7 +32,7 @@ int countdown = 0;
 
 void setup(void) 
 {
-  startAllProccesses();
+  startAllProcesses();
   startup();
   display.setCursor(0,30);
 }
@@ -251,5 +251,4 @@ void startAllProcesses()
   display.setBrightness(5);
   Serial.begin(9600);
   RTC.start();
-}
 }
