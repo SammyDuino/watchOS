@@ -192,12 +192,11 @@ void loop()
     display.print("0");
   }
   display.print(minute);
+  display.setFont(liberationSans_12ptFontInfo);
   if (hour > 12) {
-  display.fontColor(WHITE,BLACK);
   display.print(" AM");
   }
   else {
-    display.fontColor(WHITE,BLACK);
     display.print(" PM");
   }
 }
