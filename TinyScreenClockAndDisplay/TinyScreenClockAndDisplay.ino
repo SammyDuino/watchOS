@@ -1,12 +1,12 @@
-#define	BLACK           0x00
-#define	BLUE            0xE0
-#define	RED             0x03
-#define	GREEN           0x1C
-#define	DGREEN           0x0C
+#define  BLACK           0x00
+#define BLUE            0xE0
+#define RED             0x03
+#define GREEN           0x1C
+#define DGREEN           0x0C
 #define YELLOW          0x1F
 #define WHITE           0xFF
 #define ALPHA           0xFE
-#define	BROWN           0x32
+#define BROWN           0x32
 // Define colors
   
 #include "SSD1331.h"
@@ -28,6 +28,7 @@ DS1339 RTC = DS1339();
 int displayState=0;
 int buttonReleased=0;
 int countdown = 0;
+int messages = 0;
 // Defines integers being used
 
 void setup(void) 
@@ -46,6 +47,7 @@ void loop()
     displayState = 1;
     display.on();
     countdown = 90;
+    messages++;
   }
   if (buttons == 0) 
   {
@@ -57,6 +59,40 @@ void loop()
   displayState = 0;
   display.off();
   }
+
+  display.setFont(liberationSans_10ptFontInfo);
+  display.fontColor(WHITE,BLACK);
+  display.setCursor(0,40);
+if (messages == 1)
+{
+    display.fontColor(YELLOW,BLACK);
+    display.print("watchOS beta 1");
+}
+    if (messages == 10)
+    {
+      display.clearWindow(0,40,0,40);
+      display.fontColor(BLUE,BLACK);
+      display.print("hello world");
+    }
+    if (messages == 20)
+    {
+                  display.clearWindow(0,40,0,40);
+        display.fontColor(GREEN,BLACK);
+      display.print("Sammy Watch");
+    }
+    if (messages == 30)
+    {
+                  display.clearWindow(0,40,0,40);
+        display.fontColor(RED,BLACK);
+      display.print("hello world");
+    }
+    if (buttons == 2)
+    {
+      messages=0;
+      display.off();
+      display.clearWindow(0,40,0,40);
+      display.on();
+    }
   displayBattery();
   unsigned char second;
   unsigned char minute;
@@ -64,6 +100,7 @@ void loop()
   unsigned char month;
   unsigned char day;
   unsigned int year;
+  unsigned char hr;
   unsigned int weakday;
   char* dayOfWeekName[7];
   display.fontColor(BLACK,BLACK);
@@ -75,16 +112,19 @@ void loop()
         month = RTC.getMonths();        
         year = RTC.getYears();
         weakday = RTC.getDayOfWeek();
+        hr = RTC.getHours();
 // weakday
+  if (messages > 40)
+  {
   display.setFont(liberationSans_16ptFontInfo);
   display.fontColor(WHITE,BLACK);
   display.setCursor(0,40);
-  switch (weakday) {
+ switch (weakday) {
   case 0:
-  display.print( "Monday");
+  display.print("Monday");
   break;
   case 1:
-  display.print( "Tuesday");
+  display.print("Tuesday");
   break;
   case 2:
   display.print("Wednsday");
@@ -101,6 +141,7 @@ void loop()
   case 6:
   display.print("Sunday");
   break;
+  }
   }
 // Date      
   display.setFont(liberationSans_10ptFontInfo);
@@ -192,13 +233,14 @@ void loop()
     display.print("0");
   }
   display.print(minute);
-  display.setFont(liberationSans_12ptFontInfo);
-  if (hour > 12) {
-  display.print(" AM");
-  }
-  else {
-    display.print(" PM");
-  }
+
+if (hr >= 12)
+{
+  display.print("PM");
+}
+else {
+  display.print("AM");
+}
 }
 void displayBattery()
 {
