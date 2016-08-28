@@ -1,4 +1,4 @@
- #define  BLACK           0x00
+#define  BLACK           0x00
 #define BLUE            0xE0
 #define RED             0x03
 #define GREEN           0x1C
@@ -31,15 +31,58 @@ int countdown = 0;
 int messages = 0;
 // Defines integers being used
 
-
-void setup()
+void setup(void) 
 {
   start_coreservices();
   start_effects();
   display_battery();
 }
-void loop()
+
+void loop() 
 {
+  byte buttons = display.getButtons();
+
+  if (buttons != 0)
+  {
+    displayState = 1;
+    display.on();
+    countdown = 90;
+    messages++;
+  }
+  if (buttons == 0) 
+  {
+    countdown=countdown-1;
+  }
+  if (countdown<=0)
+  {
+    display.clearWindow(0,0,0,0);
+    displayState = 0;
+    display.off();
+  }
+
+  display.setFont(liberationSans_10ptFontInfo);
+  display.fontColor(WHITE,BLACK);
+  display.setCursor(0,40);
+  if (messages == 0)
+  {
+    display.fontColor(YELLOW,BLACK);
+    display.print("Sky beta 1");
+  }
+  if (messages == 10)
+  {
+    display.clearWindow(0,40,0,40);
+    display.fontColor(BLUE,BLACK);
+    display.print("More stuff coming soon!");
+  }
+  if (buttons == 2)
+  {
+    messages = 0;
+    display.off();
+    display.clearWindow(0,40,0,40);
+    display.on();
+  }
+ 
+  displayBattery();
   unsigned char second;
   unsigned char minute;
   unsigned char hour;
@@ -59,150 +102,41 @@ void loop()
   year = RTC.getYears();
   weekday = RTC.getDayOfWeek();
   hr = RTC.getHours();
-  Serial.println(RTC.getDayOfWeek());
-  byte buttons = display.getButtons();
-  if (buttons != 0)
-  {
-    displayState = 1;
-    display.on();
-    countdown = 90;
-    messages++;
-  }
-  if (buttons == 0) 
-  {
-    countdown=countdown-1;
-  }
-  if (countdown<=0)
-  {
-  display.clearWindow(0,0,0,0);
-  displayState = 0;
-  display.off();
-  }
-  display.setFont(liberationSans_10ptFontInfo);
-  display.fontColor(WHITE,BLACK);
-  display.setCursor(0,40);
-  display.setCursor(0,30);
-  display.fontColor(WHITE,BLACK);
-  display.setFont(liberationSans_16ptFontInfo);
-  display.setFont(liberationSans_22ptFontInfo);
-  display.setCursor(0,16);
-  if (hour > 12) {
-  hour = hour - 12;
-  }
-  display.print(hour);
-  display.print(":");
-  if (minute < 10) {
-    display.print("0");
-  }
-  display.print(minute);
-  display.setFont(liberationSans_12ptFontInfo);
-  if (hr >= 12)
-  {
-  display.print("PM");
-  } else {
-  display.print("AM");
-  }
+  // Weekday
+  if (messages > 40)
   {
   display.setFont(liberationSans_16ptFontInfo);
   display.fontColor(WHITE,BLACK);
   display.setCursor(0,40);
+ switch (weekday) {
+  case 0:
+  display.print("Monday");
+  break;
+  case 1:
+  display.print("Tuesday");
+  break;
+  case 2:
+  display.print("Wednsday");
+  break;
+  case 3:
+  display.print("Thursday");
+  break;
+  case 4:
+  display.print("Friday");
+  break;
+  case 5:
+  display.print("Saturday");
+  break;
+  case 6:
+  display.print("Sunday");
+  break;
   }
-// Date  
+}
+  // Date      
   display.setFont(liberationSans_10ptFontInfo);
   display.fontColor(WHITE,BLACK);
   display.setCursor(1,1);
   // Months
-  rtc_months();
-  display.print(" ");
-  switch (day) {
-  case 1:
-  display.print("1st");
-  break;
-  case 2:
-  display.print("2nd");
-  break;
-  case 3:
-  display.print("3rd");
-  break;
-  case 21:
-  display.print("21st");
-  break;
-  case 22:
-  display.print("22nd");
-  break;
-  case 23:
-  display.print("23rd");
-  break;
-  case 31:
-  display.print("31st");
-  break;
-  }
-  if ((day >=4) && (day<=20))
-  {
-  display.print(day);
-  display.print("th");
-  }
-  if ((day >= 24) && (day <= 30))
-  {
-  display.print(day);
-  display.print("th");
-  }
-}
-void start_coreservices()
-{
-  Wire.begin();
-  display.begin();
-  display.setFlip(1);
-  display.setBrightness(5);
-  Serial.begin(9600);
-  RTC.start();
-}
-void display_battery()
-{
-  const long InternalReferenceVoltage = 1100L;
-  ADMUX = (0<<REFS1) | (1<<REFS0) | (0<<ADLAR) | (1<<MUX3) | (1<<MUX2) | (1<<MUX1) | (0<<MUX0);
-  delay(10);
-  ADCSRA |= _BV( ADSC );
-  while( ( (ADCSRA & (1<<ADSC)) != 0 ) );
-  int result = (((InternalReferenceVoltage * 1024L) / ADC) + 5L) / 10L;
-  result=constrain(result-300,0,120);
-  int x=72;
-  int y=2;
-  int height=8;
-  int length=20;
-  int amtActive=(result*length)/110;
-  int red,green,blue;
-  for(int i=0;i<length;i++){
-  if (i<amtActive) 
-  {
-    red=63-((63/length)*i);
-    green=((63/length)*i);
-    blue=0;
-    } 
-    else {
-      red=32;
-      green=32;
-      blue=32;
-    }
-    display.drawLine(x+i,y,x+i,y+height,red,green,blue);
-  }
-}
-void start_effects()
-{
-  display.fontColor(GREEN,BLACK);
-  display.setFont(liberationSans_16ptFontInfo);
-  display.setCursor(0,10);
-  display.print("Welcome");
-  delay(2000);
-  displayState = 1;
-  display.on();
-  countdown = 90;
-  display.clearWindow(0,0,0,0);
-}
-void rtc_months()
-{
-  unsigned char month;
-  month = RTC.getMonths();  
   switch (month) {
   case 1:
   display.print("Jan");
@@ -241,11 +175,8 @@ void rtc_months()
   display.print("Dec");
   break;
   }
-}
-void rtc_day()
-{  
-  unsigned char day;
-  day = RTC.getDays();
+  display.print(" ");
+  // Day
   switch (day) {
   case 1:
   display.print("1st");
@@ -279,4 +210,105 @@ void rtc_day()
   display.print(day);
   display.print("th");
   }
+// Time
+  display.setFont(liberationSans_22ptFontInfo);
+  display.setCursor(0,16);
+  if (hour > 12) {
+  hour = hour - 12;
+  }
+  display.print(hour);
+  display.print(":");
+  if (minute < 10)
+  {
+    display.print("0");
+  }
+  display.print(minute);
+
+  display.setFont(liberationSans_16ptFontInfo);
+  if (hr > 12)
+  {
+    display.print("PM");
+  } else {
+  display.print("AM");
+  }
+}
+void displayBattery()
+{
+  const long InternalReferenceVoltage = 1100L;
+  ADMUX = (0<<REFS1) | (1<<REFS0) | (0<<ADLAR) | (1<<MUX3) | (1<<MUX2) | (1<<MUX1) | (0<<MUX0);
+  delay(10);
+  ADCSRA |= _BV( ADSC );
+  while( ( (ADCSRA & (1<<ADSC)) != 0 ) );
+  int result = (((InternalReferenceVoltage * 1024L) / ADC) + 5L) / 10L;
+  result=constrain(result-300,0,120);
+  int x=72;
+  int y=2;
+  int height=8;
+  int length=20;
+  int amtActive=(result*length)/110;
+  int red,green,blue;
+  for(int i=0;i<length;i++){
+  if (i<amtActive) 
+  {
+    red=63-((63/length)*i);
+    green=((63/length)*i);
+    blue=0;
+    } 
+    else {
+      red=32;
+      green=32;
+      blue=32;
+    }
+    display.drawLine(x+i,y,x+i,y+height,red,green,blue);
+  }
+}
+void start_coreservices()
+{
+  Wire.begin();
+  display.begin();
+  display.setFlip(1);
+  display.setBrightness(5);
+  Serial.begin(9600);
+  RTC.start();
+}
+void display_battery()
+{
+  const long InternalReferenceVoltage = 1100L;
+  ADMUX = (0<<REFS1) | (1<<REFS0) | (0<<ADLAR) | (1<<MUX3) | (1<<MUX2) | (1<<MUX1) | (0<<MUX0);
+  delay(10);
+  ADCSRA |= _BV( ADSC );
+  while( ( (ADCSRA & (1<<ADSC)) != 0 ) );
+  int result = (((InternalReferenceVoltage * 1024L) / ADC) + 5L) / 10L;
+  result=constrain(result-300,0,120);
+  int x=72;
+  int y=2;
+  int height=8;
+  int length=20;
+  int amtActive=(result*length)/110;
+  int red,green,blue;
+  for(int i=0;i<length;i++){
+  if (i<amtActive) 
+  {
+    red=63-((63/length)*i);
+    green=((63/length)*i);
+    blue=0;
+  } else {
+    red=32;
+    green=32;
+    blue=32;
+    }
+  display.drawLine(x+i,y,x+i,y+height,red,green,blue);
+  }
+}
+void start_effects()
+{
+  display.fontColor(GREEN,BLACK);
+  display.setFont(liberationSans_16ptFontInfo);
+  display.setCursor(0,10);
+  display.print("Welcome");
+  delay(2000);
+  displayState = 1;
+  display.on();
+  countdown = 90;
+  display.clearWindow(0,0,0,0);
 }
