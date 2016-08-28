@@ -302,10 +302,10 @@ void display_battery()
 }
 void start_effects()
 {
-  display.fontColor(GREEN,BLACK);
+  display.fontColor(BLUE,BLACK);
   display.setFont(liberationSans_16ptFontInfo);
   display.setCursor(0,10);
-  display.print("Welcome");
+  display.print("Sky");
   delay(2000);
   displayState = 1;
   display.on();
